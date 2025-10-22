@@ -14,8 +14,13 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY app.py .
 COPY sys_monitor.py .
+COPY entrypoint.sh .
+
+RUN sed -i 's/\r$//' entrypoint.sh && \
+    chmod +x entrypoint.sh
 
 EXPOSE 5000
 
 # CMD ["python", "app.py"]
-CMD ["python", "sys_monitor.py"]
+# CMD ["python", "sys_monitor.py"]
+CMD ["./entrypoint.sh"]
