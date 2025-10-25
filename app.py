@@ -1,6 +1,7 @@
 from flask import Flask, jsonify, request
 import psycopg2
 import os
+import psutil
 
 import logging
 
@@ -47,6 +48,16 @@ def home():
         logger.info(f"Endpoint '/' called. Response: {response}")
         return jsonify(response), 200
 
+@app.route('/metrics', methods=['GET'])
+def get_metrics():
+    stats = {
+        "container_id": os.uname().nodename,
+        "cpu_percent": psutil.cpu_percent(interval=1),
+        "memory_percent": psutil.virtual_memory().percent,
+        "disk_percent": psutil.disk_usage("/").percent,
+        "network_io": psutil.net_io_counters()._asdict()
+    }
+    return stats, 200   
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)

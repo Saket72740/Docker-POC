@@ -19,7 +19,7 @@ def show_system_stats():
         print(f"Total Processes: {process_count}")
         print(f"System Uptime: {round(uptime_seconds / 3600, 2)} hours")
         print("======================") 
-        time.sleep(5)
+
 
 if __name__ == "__main__":
     print(f"Running as user: {os.getenv('USER', 'unknown')}")
