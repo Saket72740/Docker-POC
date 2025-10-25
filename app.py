@@ -18,6 +18,9 @@ DB_NAME = os.getenv('POSTGRES_DB', 'testdb')
 DB_USER = os.getenv('POSTGRES_USER', 'postgres')
 DB_PASSWORD = os.getenv('POSTGRES_PASSWORD', 'password')
 
+DATA_DIR = "/data"
+os.makedirs(DATA_DIR, exist_ok=True)
+
 def get_db_connection():
     try:
         conn = psycopg2.connect(
@@ -57,7 +60,24 @@ def get_metrics():
         "disk_percent": psutil.disk_usage("/").percent,
         "network_io": psutil.net_io_counters()._asdict()
     }
-    return stats, 200   
+    return stats, 200  
+
+@app.route('/save', methods=['POST'])
+def save():
+    data = request.data.decode("utf-8")
+    file_path = os.path.join(DATA_DIR, "output.txt")
+    with open(file_path, "a") as f:
+        f.write(data + "\n")
+    return jsonify({"message": "Data saved", "path": file_path}), 201
+
+@app.route('/read', methods=['GET'])
+def read():
+    file_path = os.path.join(DATA_DIR, "output.txt")
+    if not os.path.exists(file_path):
+        return jsonify({"message": "No data found"}), 404
+    with open(file_path, "r") as f:
+        content = f.read()
+    return jsonify({"data": content}), 200
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)
