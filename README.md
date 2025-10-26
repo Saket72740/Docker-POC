@@ -28,15 +28,8 @@ personal_web_server/
 - Python 3.11+
 
 ## Environment Variables
-```env
-POSTGRES_HOST=db
-POSTGRES_DB=testdb
-POSTGRES_USER=postgres
-POSTGRES_PASSWORD=test123
-FLASK_APP=app.py
-FLASK_ENV=development
-FLASK_RUN_HOST=0.0.0.0
-FLASK_RUN_PORT=5000
+```
+Ask developer to share .env file
 ```
 
 ## API Endpoints
