@@ -1,48 +1,95 @@
 # Personal Web Server with System Monitoring
 
-A containerized Flask web server with system monitoring capabilities built using Docker.
+A containerized Flask web server with system monitoring and PostgreSQL database integration.
+
+## Project Structure
+```
+personal_web_server/
+├── app.py              # Main Flask application
+├── sys_monitor.py      # System monitoring script
+├── Dockerfile          # Docker container configuration
+├── docker-compose.yml  # Multi-container Docker configuration
+├── entrypoint.sh      # Container startup script
+├── requirements.txt    # Python dependencies
+└── logs/              # Application logs directory
+```
 
 ## Features
-
-- Flask web server running on port 5000
-- Real-time system monitoring including:
-  - CPU usage
-  - Memory usage
-  - Disk usage
-  - Network statistics
-  - Process count
-  - System uptime
+- Flask web server with REST API endpoints
+- Real-time system monitoring and logging
+- PostgreSQL database integration
+- Docker containerization
+- Volume persistence for logs and data
+- Network isolation using Docker networks
 
 ## Prerequisites
-
 - Docker
 - Docker Compose
+- Python 3.11+
 
-## Installation
+## Environment Variables
+```env
+POSTGRES_HOST=db
+POSTGRES_DB=testdb
+POSTGRES_USER=postgres
+POSTGRES_PASSWORD=test123
+FLASK_APP=app.py
+FLASK_ENV=development
+FLASK_RUN_HOST=0.0.0.0
+FLASK_RUN_PORT=5000
+```
 
+## API Endpoints
+- `GET /` - Health check endpoint
+- `GET /metrics` - System metrics
+- `POST /save` - Save data to persistent storage
+- `GET /read` - Read saved data
+- `GET /logs` - View system logs
+
+## Installation & Setup
 1. Clone the repository:
 ```bash
-git clone <your-repository-url>
+git clone <repository-url>
 cd personal_web_server
 ```
 
-2. Build and run the container:
+2. Build and start the containers:
 ```bash
 docker-compose up --build
 ```
 
-## Usage
+3. Access the application:
+```bash
+curl http://localhost:8080
+```
 
-- Access the web server at: `http://localhost:8080`
-- System monitoring stats are printed to the container logs
+## Development
+- Logs are stored in `./logs` directory
+- Application data persists in Docker volumes
+- Database data persists in `db_data` volume
+- Source code changes reflect upon container restart
 
-## Project Structure
+## Docker Commands
+```bash
+# Start containers in background
+docker-compose up -d
+
+# View logs
+docker-compose logs -f
+
+# Stop containers
+docker-compose down
+
+# Access PostgreSQL
+docker-compose exec db psql -U postgres -d testdb
+```
+
+## Contributing
 
 ```
-personal_web_server/
-├── app.py              # Flask web application
-├── sys_monitor.py      # System monitoring script
-├── Dockerfile         # Docker configuration
-├── docker-compose.yml # Docker Compose configuration
-└── requirements.txt   # Python dependencies
+If you want to contribute anything: 
+
+1. Fork the repository
+2. Create your feature branch
+3. Submit a pull request
 ```
