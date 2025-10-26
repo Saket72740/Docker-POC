@@ -8,6 +8,7 @@ services:
     volumes:
       - ./entrypoint.sh:/app/entrypoint.sh:ro
       - app_data:/data
+      - ./logs:/logs
     depends_on:
       - db
     environment:

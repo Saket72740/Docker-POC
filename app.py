@@ -2,7 +2,6 @@ from flask import Flask, jsonify, request
 import psycopg2
 import os
 import psutil
-
 import logging
 
 app = Flask(__name__)
